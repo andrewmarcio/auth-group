@@ -2,10 +2,21 @@
 
 namespace Domain\Establishment\Entity;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Domain\Base\Entity\BaseEntity;
+use Domain\Establishment\Enum\EstablishmentTypes;
 
-class Establishment extends Model
+class Establishment extends BaseEntity
 {
-    use HasFactory;
+    protected $fillable = [
+        "name",
+        "configs",
+        "establishment_id",
+        "organization_id",
+        "type",
+    ];
+
+    protected $cats = [
+        "configs" => "array",
+        "type" => EstablishmentTypes::class
+    ];
 }
