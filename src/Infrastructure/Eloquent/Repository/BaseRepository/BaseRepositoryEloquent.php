@@ -5,6 +5,7 @@ namespace Infrastructure\Eloquent\Repository\BaseRepository;
 use Domain\Base\Repository\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 abstract class BaseRepositoryEloquent implements BaseRepositoryInterface
 {
@@ -91,9 +92,16 @@ abstract class BaseRepositoryEloquent implements BaseRepositoryInterface
      */
     public function create(array $payload): ?Model
     {
-        $model = $this->resolvedModel()->create($payload);
 
-        return $model->fresh();
+        try {
+            DB::beginTransaction();
+            $model = $this->resolvedModel()->create($payload);
+            DB::commit();
+            return $model->fresh();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**
@@ -105,9 +113,16 @@ abstract class BaseRepositoryEloquent implements BaseRepositoryInterface
      */
     public function update(string $modelId, array $payload): ?Model
     {
-        $model = $this->findById($modelId);
-        $model->update($payload);
-        return $model;
+        try {
+            DB::beginTransaction();
+            $model = $this->findById($modelId);
+            $model->update($payload);
+            DB::commit();
+            return $model;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**
@@ -118,7 +133,16 @@ abstract class BaseRepositoryEloquent implements BaseRepositoryInterface
      */
     public function deleteById(string $modelId): bool
     {
-        return $this->findById($modelId)->delete();
+        try {
+            DB::beginTransaction();
+            $this->findById($modelId)->delete();
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+        return false;
     }
 
     /**
@@ -129,7 +153,15 @@ abstract class BaseRepositoryEloquent implements BaseRepositoryInterface
      */
     public function restoreById(string $modelId): bool
     {
-        return $this->findOnlyTrashedById($modelId)->restore();
+        try {
+            DB::beginTransaction();
+            $this->findOnlyTrashedById($modelId)->restore();
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**
@@ -140,6 +172,14 @@ abstract class BaseRepositoryEloquent implements BaseRepositoryInterface
      */
     public function permanentlyDeleteById(string $modelId): bool
     {
-        return $this->findTrashedById($modelId)->forceDelete();
+        try {
+            DB::beginTransaction();
+            $this->findTrashedById($modelId)->forceDelete();
+            DB::commit();
+            return true;
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 }

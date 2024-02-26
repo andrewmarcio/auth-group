@@ -2,11 +2,12 @@
 
 namespace Application\Services\SalesGroup;
 
+use Domain\Base\Service\BaseServiceInterface;
 use Domain\SalesGroup\Repository\SalesGroupRepositoryInterface;
 use Domain\SalesGroup\Resources\SalesGroupResource;
 use Domain\SalesGroup\Resources\SalesGroupResourceCollection;
 
-class SalesGroupService {
+class SalesGroupService extends BaseServiceInterface {
 
     public function __construct(private SalesGroupRepositoryInterface $repository)
     {}

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\SalesGroup;
+namespace Presentation\Controllers\Organization;
 
 use App\Http\Controllers\Controller;
-use Application\Services\SalesGroup\SalesGroupService;
+use Application\Services\Organization\OrganizationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class SalesGroupController extends Controller
+class OrganizationController extends Controller
 {
-    public function __construct(private SalesGroupService $service)
+    public function __construct(private OrganizationService $service)
     {
     }
 

@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }}\{{ entityName }};
+
+use Domain\Base\Service\BaseServiceInterface;
+use Domain\{{ entityName }}\Repository\{{ entityName }}RepositoryInterface;
+use Domain\{{ entityName }}\Resources\{
+    {{ entityName }}Resource,
+    {{ entityName }}ResourceCollection
+};
+
+class {{ entityName }}Service extends BaseServiceInterface {
+
+    public function __construct(private {{ entityName }}RepositoryInterface $repository)
+    {}
+
+    public function list(): {{ entityName }}ResourceCollection {
+        $entity = $this->repository->all();
+        return {{ entityName }}ResourceCollection::make($entity);
+    }
+
+    public function find(string $id): {{ entityName }}Resource {
+        $entity = $this->repository->findById($id);
+        return {{ entityName }}Resource::make($entity);
+    }
+
+    public function create(array $data): {{ entityName }}Resource {
+        $entity = $this->repository->create($data);
+        return {{ entityName }}Resource::make($entity);
+    }
+
+    public function update(string $id, array $data): {{ entityName }}Resource {
+        $entity = $this->repository->update($id, $data);
+        return {{ entityName }}Resource::make($entity);
+    }
+
+    public function remove(string $id): void {
+        $this->repository->deleteById($id);
+    }
+}

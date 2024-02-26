@@ -2,12 +2,13 @@
 
 namespace Application\Services\Organization;
 
+use Domain\Base\Service\BaseServiceInterface;
 use Domain\Organization\Repository\OrganizationRepositoryInterface;
 use Domain\Organization\Resources\OrganizationResource;
 use Domain\Organization\Resources\OrganizationResourceCollection;
 use Domain\Organization\Resources\OrganizationWithRelationsResource;
 
-class OrganizationService {
+class OrganizationService extends BaseServiceInterface {
 
     public function __construct(private OrganizationRepositoryInterface $repository)
     {}

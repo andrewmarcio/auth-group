@@ -7,6 +7,7 @@ use Domain\{
     User\Repository\UserRepositoryInterface,
     SalesGroup\Repository\SalesGroupRepositoryInterface,
     Organization\Repository\OrganizationRepositoryInterface,
+    Establishment\Repository\EstablishmentRepositoryInterface,
 };
 use Illuminate\Support\ServiceProvider;
 use Infrastructure\Eloquent\Repository\{
@@ -14,6 +15,7 @@ use Infrastructure\Eloquent\Repository\{
     User\UserRepositoryEloquent,
     SalesGroup\SalesGroupRepositoryEloquent,
     Organization\OrganizationRepositoryEloquent,
+    Establishment\EstablishmentRepositoryEloquent,
 };
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -27,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepositoryEloquent::class);
         $this->app->bind(SalesGroupRepositoryInterface::class, SalesGroupRepositoryEloquent::class);
         $this->app->bind(OrganizationRepositoryInterface::class, OrganizationRepositoryEloquent::class);
+        $this->app->bind(EstablishmentRepositoryInterface::class, EstablishmentRepositoryEloquent::class);
     }
 
     /**
