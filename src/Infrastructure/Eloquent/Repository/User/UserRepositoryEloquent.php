@@ -9,4 +9,9 @@ use Infrastructure\Eloquent\Repository\BaseRepository\BaseRepositoryEloquent;
 class UserRepositoryEloquent extends BaseRepositoryEloquent implements UserRepositoryInterface
 {
     protected string $model = User::class;
+
+    public function getByEmail(string $email): ?User
+    {
+        return $this->resolvedModel()->whereEmail($email)->first();
+    }
 }
